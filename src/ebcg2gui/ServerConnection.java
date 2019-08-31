@@ -114,6 +114,7 @@ public class ServerConnection implements Runnable {
 				else if(parts[0].equals("savestate")) {
 					// display new savestate and wait
 					instance.getSSM().display(parts[1]);
+					Thread.sleep(250);
 				}
 				else {
 					System.out.println(msg);
@@ -123,6 +124,8 @@ public class ServerConnection implements Runnable {
 			if(!gracefulExit) {
 				JOptionPane.showMessageDialog(null, "I/O error in main loop!");
 			}
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
 		}
 	}
 	

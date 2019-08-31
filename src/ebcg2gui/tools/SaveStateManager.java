@@ -1,5 +1,8 @@
 package ebcg2gui.tools;
 
+import java.awt.KeyEventDispatcher;
+import java.awt.event.KeyEvent;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,7 +10,10 @@ import ebcg2gui.GUI;
 
 public class SaveStateManager {
 	private GUI instance;
-	private int selected = 0;
+	
+	private int currentNum;
+	private int selected;
+	private int colCount;
 	
 	private static final String mergeInfoFormat = 
 			" %d%n"
@@ -29,7 +35,7 @@ public class SaveStateManager {
 	
 	public void display(String rawData) {
 		JSONObject data = new JSONObject(rawData);
-		int currentNum = data.getInt("currentNum");
+		currentNum = data.getInt("currentNum");
 		
 		// update labels
 		instance.getLblPoints().setText("Score: " + Integer.toString(data.getInt("score")));
@@ -52,5 +58,32 @@ public class SaveStateManager {
 		instance.getInserterPanel().setData(board.length(), selected, currentNum);
 		instance.getContentPane().validate();
 		instance.getContentPane().repaint();
+		
+		colCount = board.length();
 	}
+	
+	public KeyEventDispatcher inserterAdapter = new KeyEventDispatcher() {
+		@Override
+		public boolean dispatchKeyEvent(KeyEvent e) {
+			if(e.getID() != KeyEvent.KEY_RELEASED) return false;
+			
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+				selected--;
+				if(selected < 0) {
+					selected += colCount;
+				}
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				selected = (selected+1) % colCount;
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				instance.getCon().send("insert " + selected + " ");
+			}
+			
+			instance.getInserterPanel().setData(colCount, selected, currentNum);
+			instance.getContentPane().validate();
+			instance.getContentPane().repaint();
+			return false;
+		}
+	};
 }

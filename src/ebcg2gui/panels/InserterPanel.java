@@ -19,11 +19,14 @@ public class InserterPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		if(colCount <= 0) return;
+		
 		g.setColor(Color.BLACK);
 		for(int i=0; i<colCount; i++) {
 			g.drawLine(getWidth()/colCount * (i+1), 0, getWidth()/colCount * (i+1), getHeight());
 		}
 		
-		g.drawString(Integer.toString(currentNum), getWidth()/colCount * selected, getHeight()/2);
+		int cellWidth = getWidth()/(2*colCount);
+		g.drawString(Integer.toString(currentNum),  cellWidth + (getWidth()*selected)/colCount, getHeight()/2);
 	}
 }

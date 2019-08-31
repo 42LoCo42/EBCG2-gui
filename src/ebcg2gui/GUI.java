@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import ebcg2gui.panels.BoardPanel;
 import ebcg2gui.panels.InserterPanel;
@@ -60,6 +63,9 @@ public class GUI extends JFrame {
 
 	public SaveStateManager getSSM() {
 		return ssm;
+	}
+	public ServerConnection getCon() {
+		return con;
 	}
 
 	/**
@@ -350,6 +356,25 @@ public class GUI extends JFrame {
 			}
 		});
 		
+		txtBuyNum.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				try {
+					int buyNum = Integer.parseInt(txtBuyNum.getText());
+					txtCost.setText(Integer.toString((int) Math.pow(2, buyNum+3)));
+				} catch(NumberFormatException ex) {}
+			}
+		});
+		
+		btnBuy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int buyNum = Integer.parseInt(txtBuyNum.getText());
+					con.send("buy " + buyNum + " ");
+				} catch(NumberFormatException ex) {}
+			}
+		});
+		
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ssm.inserterAdapter);
 	}
 	
 	public void loadServers() {
@@ -391,6 +416,7 @@ public class GUI extends JFrame {
 		lblPoints.setText("Points: 0");
 		lblMaxpoints.setText("Total points: 0");
 		mergeInfoText.setText("");
+		inserterPanel.requestFocus();
 		
 		conThread = new Thread(con);
 		conThread.start();
