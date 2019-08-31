@@ -1,4 +1,4 @@
-package ebcg2gui;
+package ebcg2gui.tools;
 
 public class ServerInfo {
 	public String hostname;

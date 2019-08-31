@@ -1,4 +1,4 @@
-package ebcg2gui;
+package ebcg2gui.tools;
 
 import java.io.File;
 import java.io.InputStream;
