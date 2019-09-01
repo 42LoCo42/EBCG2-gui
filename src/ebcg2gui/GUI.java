@@ -412,7 +412,7 @@ public class GUI extends JFrame {
 	}
 	
 	public void startGame() {
-		((CardLayout) contentPane.getLayout()).show(contentPane, "inGame");
+		showGameMenu();
 		lblPoints.setText("Points: 0");
 		lblMaxpoints.setText("Total points: 0");
 		mergeInfoText.setText("");
@@ -433,9 +433,19 @@ public class GUI extends JFrame {
 		
 		con.send(command);
 		con.gracefulExit();
+		showServerMenu();
+	}
+	
+	public void showServerMenu() {
 		((CardLayout) contentPane.getLayout()).show(contentPane, "serverMenu");
 		contentPane.updateUI();
 	}
+	
+	public void showGameMenu() {
+		((CardLayout) contentPane.getLayout()).show(contentPane, "inGame");
+		contentPane.updateUI();
+	}
+	
 	
 	public JLabel getLblServerInfo() {
 		return lblServerInfo;
