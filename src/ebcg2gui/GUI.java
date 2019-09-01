@@ -31,7 +31,6 @@ import javax.swing.event.CaretListener;
 import ebcg2gui.panels.BoardPanel;
 import ebcg2gui.panels.InserterPanel;
 import ebcg2gui.tools.ConfigLoader;
-import ebcg2gui.tools.SaveStateManager;
 import ebcg2gui.tools.ServerInfo;
 
 @SuppressWarnings("serial")

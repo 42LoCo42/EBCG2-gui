@@ -1,12 +1,10 @@
-package ebcg2gui.tools;
+package ebcg2gui;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import ebcg2gui.GUI;
 
 public class SaveStateManager {
 	private GUI instance;
