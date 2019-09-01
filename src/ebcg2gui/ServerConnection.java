@@ -110,18 +110,26 @@ public class ServerConnection implements Runnable {
 					if(parts[1].equals("WrongMode")) {
 						JOptionPane.showMessageDialog(null, "Operation not allowed in current mode!\n");
 					}
+					else if(parts[1].equals("YouLose")) {
+						JOptionPane.showMessageDialog(null, String.format("You lose!%nScore: %d, max %d", instance.getSSM().getScore(), instance.getSSM().getMaxScore()));
+						instance.showServerMenu();
+						gracefulExit();
+					}
+					else if(parts[1].equals("NotEnoughPoints")) {
+						JOptionPane.showMessageDialog(null, "You need more points to buy that!");
+					}
 				}
 				else if(parts[0].equals("savestate")) {
 					// display new savestate and wait
 					instance.getSSM().display(parts[1]);
-					Thread.sleep(250);
+					Thread.sleep(125);
 				}
 				else {
 					System.out.println(msg);
 				}
 			}	
 		} catch(IOException ex) {
-			if(!gracefulExit) {
+			if(!gracefulExit) { // this will be triggered on closeConnection(), so disable warnings if we know the origin
 				JOptionPane.showMessageDialog(null, "I/O error in main loop!");
 			}
 		} catch (InterruptedException ex) {

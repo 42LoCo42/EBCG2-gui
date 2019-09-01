@@ -11,9 +11,7 @@ import ebcg2gui.GUI;
 public class SaveStateManager {
 	private GUI instance;
 	
-	private int currentNum;
-	private int selected;
-	private int colCount;
+	private int score, maxScore, currentNum, selected, colCount;
 	
 	private static final String mergeInfoFormat = 
 			" %d%n"
@@ -35,6 +33,8 @@ public class SaveStateManager {
 	
 	public void display(String rawData) {
 		JSONObject data = new JSONObject(rawData);
+		score = data.getInt("score");
+		maxScore = data.getInt("maxScore");
 		currentNum = data.getInt("currentNum");
 		
 		// update labels
@@ -86,4 +86,11 @@ public class SaveStateManager {
 			return false;
 		}
 	};
+	
+	public int getScore() {
+		return score;
+	}
+	public int getMaxScore() {
+		return maxScore;
+	}
 }
